@@ -27,26 +27,19 @@ pip install -r requirements.txt
 python geolocation.py
 ```
 
-Example output:
+Example output (real run):
 
 ```
-Your IP address: 203.0.113.42
-
-Location Details:
-  City     : Islamabad
-  Region   : Islamabad Capital Territory
-  Country  : Pakistan
-  Zip      : 44000
-  Latitude : 33.6844
-  Longitude: 73.0479
-  Timezone : Asia/Karachi
-
-Map saved to: user_location_map.html
-Open this file in a browser to see the map.
+Your public IP address: 163.61.226.145
+Location: Multan, Pakistan at (30.1968, 71.4782)
 ```
 
-The generated map opens in your default browser automatically. If you would
-rather just open the file later, comment out the `webbrowser.open(...)` call.
+The map is written to `user_location_map.html` next to this script and opened in
+your default browser automatically. If you would rather open it later, comment
+out the `webbrowser.open(...)` call in `create_map()`.
+
+The `ip-api.com` response carries more than the script uses — region, postal
+code, timezone and ISP are all available in `data` if you want to print them.
 
 ## Notes
 
@@ -60,9 +53,23 @@ rather just open the file later, comment out the `webbrowser.open(...)` call.
 ## Cross-platform fix
 
 `folium` needs a `file://` URL, and on Windows `Path.as_uri()` is used to
-produce a correctly escaped one. Building the path by hand — the usual
-`"file://" + path` trick — breaks on Windows because the drive letter needs a
-leading slash and backslashes are invalid in a URL.
+produce a correctly escaped one. The usual `"file://" + path` trick breaks on
+Windows, and it is worth seeing why — a real captured comparison:
+
+```
+ours:  file:///E:/programmimg_world/geolocation-system/user_location_map.html
+old:   file://E:\programmimg_world\user_location_map.html
+```
+
+Parsed as URLs:
+
+| | ours | old |
+| --- | --- | --- |
+| `netloc` (hostname) | `''` | `'E:\programmimg_world\user_location_map.html'` |
+| `path` | `/E:/.../user_location_map.html` | `''` |
+
+The old version makes the entire file path the URL's **hostname** and leaves the
+path **empty**. There is no file to open, so the browser silently does nothing.
 
 ## Concepts demonstrated
 
