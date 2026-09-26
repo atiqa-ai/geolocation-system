@@ -15,7 +15,7 @@ Python 3.7+ and an internet connection.
 ## Installation
 
 ```bash
-git clone https://github.com/<your-username>/geolocation-system.git
+git clone https://github.com/atiqa-ai/geolocation-system.git
 cd geolocation-system
 
 pip install -r requirements.txt
@@ -78,7 +78,3 @@ path **empty**. There is no file to open, so the browser silently does nothing.
 - `pathlib` for platform-correct file paths
 - Interactive map generation with Folium
 - `try` / `except` for network and API failures, including API-level error payloads
-
-## License
-
-MIT
